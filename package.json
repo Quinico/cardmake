@@ -1,0 +1,17 @@
+{
+  "name": "Card2Pdf",
+  "version": "0.0.0",
+  "description": "Card2Pdf",
+  "main": "app.js",
+  "author": {
+    "name": "ThisMachinePwnsNoobs",
+    "email": ""
+  },
+	"dependencies": {
+		"gm": "^1.21.1",
+		"pdfkit": "^0.7.2"
+	},
+	"bin": {
+		"cardmake": "app.js"
+	}
+}
