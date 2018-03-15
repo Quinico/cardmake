@@ -1,22 +1,16 @@
 {
-	"name": "cardmake",
-	"version": "0.0.0",
+	"name": "@quinico/cardmake",
+	"version": "0.1.0",
 	"description": "cardmake",
-	"main": "app.js",
+	"main": "app/cardmake.js",
 	"author": {
-	"name": "ThisMachinePwnsNoobs",
-	"email": ""
+		"name": "Matthew J. Melendez",
+		"email": "m.j.melendez@ieee.org"
 	},
 	"dependencies": {
-		"gm": "^1.21.1",
 		"pdfkit": "^0.7.2"
 	},
 	"bin": {
-		"cardmake": "app.js"
-	},
-	"scripts" :
-	{ 
-		"preinstall" : "call GraphicsMagick-1.3.24-Q16-win32-dll.exe"
+		"cardmake": "app/cli.js"
 	}
-	
 }
