@@ -6,6 +6,8 @@
  * Parse args for multiple input dirs
  * Refactor actuall page palacement and pdf rendering to some function
  * Support browser
+ * Add documentation
+ * Start working in a dev branch
  * 
  */
 var fs = require("fs")
