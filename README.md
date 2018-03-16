@@ -1,18 +1,37 @@
 # cardmake
 
+A command line tool to turn a collection of images into print-and-play poker cards. 
+
 ## Installation
 
-1. Download the repository as a zip
-2. Extract the zip somewhere
-3. Run install.cmd
-4. When prompted, install graphics magick
-5. Let install finish
-6. Delete the extracted zip file and the zip file (we don't need them anymore. the install script copied them somewhere else)
-7. ???
-8. Profit
-
-## Uninstall
+1. Install Node.JS
+2. Run the following command in the command line:
 
 ```
-npm uninstall cardmake -g
+npm install -g @quinico/cardmake
 ```
+
+### Updating Cardmake
+
+If you ever want to update your copy of cardmake on your computer, run the following command:
+
+```
+npm update -g @quinico/cardmake
+```
+
+### Uninstall Cardmake
+
+Run the following command in the command line:
+
+```
+npm uninstall -g cardmake
+```
+
+## Using Cardmake
+
+> Note: Cardmake only supports **PNG** and **JPG** files. Any other files in the folder (.gif, .pdf, .docx, etc.) will be ignored.
+
+1. Place the images (png or jpg) you want to use into one folder.
+2. Open the command prompt and navigate to the folder.
+3. Run cardmake
+4. Party!

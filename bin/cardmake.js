@@ -2,16 +2,17 @@
 /**
  * 
  * TODO
- * 
- * Parse args for multiple input dirs
- * Refactor actuall page palacement and pdf rendering to some function
+ * Refactor actual page palacement and pdf rendering to some function
  * Support browser
  * Add documentation
  * Start working in a dev branch
+ * Use commander to parse args
  * 
  */
 var fs = require("fs")
 var pdfkit = require("pdfkit")
+var readChunk = require('read-chunk')
+var imageType = require('image-type');
 
 var srcDir = process.argv[2] || "."//first arg
 var outPdf = process.argv[3] || ("out.pdf")
@@ -42,7 +43,13 @@ function createCardPdf(srcDir, outPdf){
 
     doc.pipe(fs.createWriteStream(outPdf))    
     for(var i = files.length - 1; i >= 0; i--){
-        if(files[i].endsWith(".png") || files[i].endsWith(".jpeg") || files[i].endsWith(".jpg")){
+        if(fs.statSync(files[i]).isDirectory()){
+            continue;
+        }
+        var buffer = readChunk.sync(files[i], 0, 12);
+        var imageExt = imageType(buffer)
+        imageExt = (imageExt) ? imageExt.ext : undefined
+        if(imageExt == "png" || imageExt == "jpg"){
             validImageFiles.push(files[i])
         }
     }
@@ -58,8 +65,6 @@ function createCardPdf(srcDir, outPdf){
                 if(cardIndex < validImageFiles.length){
                     doc.image(validImageFiles[cardIndex], cardPosX[posX], cardPosY[posY], { width: cardWidth, height: cardHeight })
                     cardIndex++
-                }else{
-                    return;
                 }
                 
             }

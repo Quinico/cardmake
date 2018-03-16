@@ -8,9 +8,11 @@
 		"email": "m.j.melendez@ieee.org"
 	},
 	"dependencies": {
-		"pdfkit": "^0.7.2"
+		"image-type": "^3.0.0",
+		"pdfkit": "^0.7.2",
+		"read-chunk": "^2.1.0"
 	},
 	"bin": {
-		"cardmake": "app/cli.js"
+		"cardmake": "bin/cardmake.js"
 	}
 }
