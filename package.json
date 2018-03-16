@@ -1,6 +1,6 @@
 {
 	"name": "@quinico/cardmake",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "cardmake",
 	"main": "app/cardmake.js",
 	"author": {
@@ -14,5 +14,10 @@
 	},
 	"bin": {
 		"cardmake": "bin/cardmake.js"
-	}
+	},
+	"repository" :{ 
+		"type" : "git", 
+		"url" : "https://github.com/quinico/cardmake.git"
+	},
+	"license": "MIT"
 }
