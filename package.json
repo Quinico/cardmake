@@ -1,6 +1,6 @@
 {
 	"name": "@quinico/cardmake",
-	"version": "0.1.1",
+	"version": "0.2.1",
 	"description": "cardmake",
 	"main": "app/cardmake.js",
 	"author": {
