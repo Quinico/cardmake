@@ -28,7 +28,14 @@ npm uninstall -g @quinico/cardmake
 npm install -g @quinico/cardmake
 ```
 
-## Using Cardmake
+## Using Cardmake (0.2.1+)
+
+The old usage is still supported, but new features have been added. To see all the availible options, run:
+```
+cardmake --help
+```
+
+## Using Cardmake (OLD)
 
 > Note: Cardmake only supports **PNG** and **JPG** files. Any other files in the folder (.gif, .pdf, .docx, etc.) will be ignored.
 
