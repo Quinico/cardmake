@@ -10,40 +10,67 @@
  * 
  */
 var fs = require("fs")
+var path = require('path')
 var pdfkit = require("pdfkit")
 var readChunk = require('read-chunk')
-var imageType = require('image-type');
+var imageType = require('image-type')
+var program = require('commander')
 
-var srcDir = process.argv[2] || "."//first arg
-var outPdf = process.argv[3] || ("out.pdf")
+program
+    .description("A command line tool to create print and play poker card sheets.")
+    .option("-d, --directory <path>",           "The path to a directory that contains all of the image files", ".")
+    .option("-o, --output <filename>",          "The location of the resulting file", "cardmake.pdf")
+    .option("-w, --width <inches>",             "The width of the cards on the sheet", 2.5)
+    .option("-h, --height <inches>",            "The height of the cards on the sheet", 3.5)
+    .option("-pw, --page-width <inches>",       "(UNIMPLEMENTED) The width of the page", 8.5)
+    .option("-ph, --page-height <inches>",      "(UNIMPLEMENTED) The height of the page", 11)
+    .option("-ml, --margin-left <inches>",      "(UNIMPLEMENTED) The size of the left margin of the sheet", 0.5)
+    .option("-mr, --margin-right <inches>",     "(UNIMPLEMENTED) The size of the right margin of the sheet", 0.5)
+    .option("-mt, --margin-top <inches>",       "(UNIMPLEMENTED) The size of the top margin of the sheet", 0.25)
+    .option("-mb, --margin-bottom <inches>",    "(UNIMPLEMENTED) The size of the bottom margin of the sheet", 0.25)
+    .parse(process.argv)
 
-var cardPosX = [
-    inchToPoints(.5),
-    inchToPoints(3),
-    inchToPoints(5.5)
-]
+var srcDir = program.directory
+var outPdf = program.output
+var cardWidth = program.width
+var cardHeight = program.height
+var cardHeightPt = inchToPoints(cardHeight)
+var cardWidthPt = inchToPoints(cardWidth)
+var pageWidth = program.pageWidth
+var pageHight = program.pageHeight
 
-var cardPosY = [
-    inchToPoints(.25),
-    inchToPoints(3.75),
-    inchToPoints(7.25)
-]
+var cardPosX = getCardCoords(cardWidth, 8.5, 0.5, 0.5)
+var cardPosY = getCardCoords(cardHeight, 11, 0.25, 0.25)
+
+function getCardCoords(cardWidth, pageWidth, leftMargin, rightMargin){
+    var usableWidth = pageWidth - (leftMargin + rightMargin)
+    var numCardsRow = Math.floor(usableWidth/cardWidth)
+    var cardPositions = []
+    for(var i = 0; i < numCardsRow; i++){
+        cardPositions.push(inchToPoints(leftMargin + (i*cardWidth)))
+    }
+    return cardPositions
+}
 
 function inchToPoints(inches){
     return inches * 72
 }
 
-function createCardPdf(srcDir, outPdf){
+function createCardPdf(srcDir, outPdf, cardWidth, cardHeight){
     var files = fs.readdirSync(srcDir)
     var doc = new pdfkit({autoFirstPage: false})
     var cardIndex = 0
     var validImageFiles = []
-    var cardWidth = inchToPoints(2.5)
-    var cardHeight = inchToPoints(3.5)
-
+    var cardsPerPage = cardPosX.length * cardPosY.length
     doc.pipe(fs.createWriteStream(outPdf))    
     for(var i = files.length - 1; i >= 0; i--){
-        if(fs.statSync(files[i]).isDirectory()){
+        files[i] = path.join(srcDir, files[i])
+        try{
+            if(fs.statSync(files[i]).isDirectory()){
+                continue;
+                
+            }
+        } catch (e){
             continue;
         }
         var buffer = readChunk.sync(files[i], 0, 12);
@@ -56,10 +83,10 @@ function createCardPdf(srcDir, outPdf){
 
     //iterate over each card a page (9 cards) at a time
     //then use two loops to place each card on the page
-    for(var i=0; i<validImageFiles.length; i+=9){
-        for(var posX=0; posX<3; posX++){
-            for(var posY=0; posY<3; posY++){
-                if((cardIndex % 9) == 0){
+    for(var i=0; i<validImageFiles.length; i+=cardsPerPage){
+        for(var posX=0; posX<cardPosX.length; posX++){
+            for(var posY=0; posY<cardPosY.length; posY++){
+                if((cardIndex % cardsPerPage) == 0){
                     doc.addPage()
                 }
                 if(cardIndex < validImageFiles.length){
@@ -74,4 +101,4 @@ function createCardPdf(srcDir, outPdf){
 }
 
 //execute script
-createCardPdf(srcDir, outPdf)
+createCardPdf(srcDir, outPdf, cardWidthPt, cardHeightPt)
