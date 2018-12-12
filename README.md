@@ -11,20 +11,21 @@ A command line tool to turn a collection of images into print-and-play poker car
 npm install -g @quinico/cardmake
 ```
 
-### Updating Cardmake
-
-If you ever want to update your copy of cardmake on your computer, run the following command:
-
-```
-npm update -g @quinico/cardmake
-```
-
 ### Uninstall Cardmake
 
 Run the following command in the command line:
 
 ```
-npm uninstall -g cardmake
+npm uninstall -g @quinico/cardmake
+```
+
+### Updating Cardmake
+
+If you ever want to update your copy of cardmake on your computer, first uninstall, and then re-install:
+
+```
+npm uninstall -g @quinico/cardmake
+npm install -g @quinico/cardmake
 ```
 
 ## Using Cardmake
